@@ -1,5 +1,6 @@
 package com.revature.screens;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Scanner;
 
@@ -8,34 +9,23 @@ import com.revature.beans.CheckingAccount;
 import com.revature.beans.SavingsAccount;
 import com.revature.beans.User;
 import com.revature.daos.UserDao;
+import com.revature.util.AppState;
 
 public class Registration implements Screen {
 	
+	public static final Registration r=new Registration();
 	private Scanner scan=new Scanner(System.in);
 	public UserDao ud=UserDao.currentUserDao;
-	private String username;
-	private String password;
+	private User u=new User();
 
-	public Registration() {
+	private Registration() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-
-	public Registration(String username, String password) {
-		super();
-		this.username = username;
-		this.password = password;
-	}
-
-
 
 	public Screen start() {
-		User u=new User();
-		u=ud.getUser(username, password);
-		if(u==null) {
-			return new Registration(username, password);
-		}
+		u=AppState.state.getCurrentUser();
+		System.out.println(u.getFirstName());
 		System.out.println("Welcome " + u.getFirstName() + " to Sublime Bank Corp!");
 		System.out.println("Select account to open: ");
 		System.out.println("(1) Checking Account");
@@ -49,46 +39,49 @@ public class Registration implements Screen {
 				CheckingAccount checking=new CheckingAccount();
 				System.out.println("Enter amount to deposit in your new checking account. You must deposit at least $1.");
 				String checkingAmount=scan.nextLine();
-				if(checkingAmount.length() > 0 && (48 <= checkingAmount.charAt(0) && checkingAmount.charAt(0) <= 57)) {
+				try {
 					double toDeposit=Double.parseDouble(checkingAmount);
 					checking.setUser(u);
 					checking.setAccountBalance(toDeposit);
 					u.setCheckingAccount(checking);
 					ud.updateUser(u);
-					return new UserHomepage(u);
-				}
-				else {
+					return UserHomepage.usehome;
+					
+				} catch (Exception e) {
 					System.out.println("Invalid input.");
+					// TODO: handle exception
 				}
 				// return this screen
-				return new Registration(username, password);
+				return Registration.r;
 
 			case 2: // open savings account registration screen
 				
 				SavingsAccount savings=new SavingsAccount();
 				System.out.println("Enter amount to deposit in your new savings account. You must deposit at least $1.");
 				String savingsAmount=scan.nextLine();
-				if(savingsAmount.length() > 0 && (48 <= savingsAmount.charAt(0) && savingsAmount.charAt(0) <= 57)) {
+				try {
 					double toDeposit=Double.parseDouble(savingsAmount);
 					savings.setUser(u);
 					savings.setAccountBalance(toDeposit);
-					savings.setInstantNow(Instant.now());
+					savings.setLastLogin(Instant.now());
+					savings.setInterestRate(.3);
 					u.setSavingsAccount(savings);
 					ud.updateUser(u);
-					return new UserHomepage(u);
-				}
-				else {
+					return UserHomepage.usehome;	
+					
+				} catch (Exception e) {
 					System.out.println("Invalid input.");
-				}		
+					// TODO: handle exception
+				}
 				// return this screen
-				return new Registration(username, password);
+				return Registration.r;
 				
 			case 3: // open account registration screen
 				
 				CheckingAccount checkingBoth=new CheckingAccount();
 				System.out.println("Enter amount to deposit in your new checking account. You must deposit at least $1.");
 				String checkingAmountBoth=scan.nextLine();
-				if(checkingAmountBoth.length() > 0 && (48 <= checkingAmountBoth.charAt(0) && checkingAmountBoth.charAt(0) <= 57)) {
+				try {
 					double toDeposit=Double.parseDouble(checkingAmountBoth);
 					checkingBoth.setUser(u);
 					checkingBoth.setAccountBalance(toDeposit);
@@ -96,24 +89,34 @@ public class Registration implements Screen {
 					SavingsAccount savingsBoth=new SavingsAccount();
 					System.out.println("Enter amount to deposit in your new savings account. You must deposit at least $1.");
 					String savingsAmountBoth=scan.nextLine();
-					if(savingsAmountBoth.length() > 0 && (48 <= savingsAmountBoth.charAt(0) && savingsAmountBoth.charAt(0) <= 57)) {
+					try {
 						double toDepositSavings=Double.parseDouble(savingsAmountBoth);
 						savingsBoth.setUser(u);
 						savingsBoth.setAccountBalance(toDepositSavings);
+						savingsBoth.setLastLogin(Instant.now());
+						savingsBoth.setInterestRate(.5);
 						u.setSavingsAccount(savingsBoth);
+						
+					} catch (Exception e) {
+						System.out.println("Invalid input.");
+						// TODO: handle exception
 					}
 					ud.updateUser(u);
-					return new UserHomepage(u);
+					return UserHomepage.usehome;
+					
+				} catch (Exception e) {
+					System.out.println("Invalid input");
+					// TODO: handle exception
 				}
 				
-				return new Registration(username, password);
+				return Registration.r;
 			}
 		}
 		else {
 			System.out.println("Invalid Input.");
 		}
 		
-		return new Registration(username, password);
+		return Registration.r;
 	}
 
 }

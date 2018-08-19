@@ -5,32 +5,23 @@ import java.util.Scanner;
 import com.revature.beans.CheckingAccount;
 import com.revature.beans.User;
 import com.revature.daos.UserDao;
+import com.revature.util.AppState;
 
 public class SavingsNoCheckingHomepage implements Screen {
 	
+	public static final SavingsNoCheckingHomepage snch=new SavingsNoCheckingHomepage();
 	private UserDao ud=UserDao.currentUserDao;
 	private Scanner scan=new Scanner(System.in);
-	private User u;
+	private User u=new User();
 
-	
-
-	public SavingsNoCheckingHomepage() {
+	private SavingsNoCheckingHomepage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public SavingsNoCheckingHomepage(User u) {
-		super();
-		this.u = u;
-	}
-
-
-
-
-
 	@Override
 	public Screen start() {
-		
+		u=AppState.state.getCurrentUser();
 		System.out.println("Do you want to:");
 		System.out.println("(1) Make a deposit");
 		System.out.println("(2) Make a withdrawal");
@@ -103,7 +94,7 @@ public class SavingsNoCheckingHomepage implements Screen {
 						checking.setAccountBalance(toDeposit);
 						u.setCheckingAccount(checking);
 						ud.updateUser(u);
-						return new UserHomepage(u);
+						return UserHomepage.usehome;
 					}
 					else {
 						System.out.println("Enter a positive number.");
@@ -171,8 +162,8 @@ public class SavingsNoCheckingHomepage implements Screen {
 				
 			case 7:
 				System.out.println("Logging out.");
+				AppState.state.setCurrentUser(null);
 				return Homepage.hp;
-				
 				
 			}
 		}
@@ -181,7 +172,7 @@ public class SavingsNoCheckingHomepage implements Screen {
 		}
 		
 		
-		return new SavingsNoCheckingHomepage(u);
+		return SavingsNoCheckingHomepage.snch;
 	}
 
 }

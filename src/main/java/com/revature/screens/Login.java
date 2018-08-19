@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.revature.beans.User;
 import com.revature.daos.UserDao;
+import com.revature.util.AppState;
 
 public class Login implements Screen {
 	
@@ -28,11 +29,12 @@ public class Login implements Screen {
 		String password=scan.nextLine();
 		User u=new User();
 		u=ud.getUser(username, password);
+		AppState.state.setCurrentUser(u);
 		if(u==null) {
 			
 			return Homepage.hp;
 		}
-		return new UserHomepage(u);
+		return UserHomepage.usehome;
 	}
 
 }

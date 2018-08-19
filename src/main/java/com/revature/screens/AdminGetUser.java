@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.revature.beans.User;
 import com.revature.daos.UserDao;
+import com.revature.util.AppState;
 
 public class AdminGetUser implements Screen {
 	
@@ -26,9 +27,10 @@ public class AdminGetUser implements Screen {
 		String username=scan.nextLine().trim();
 		User u=new User();
 		u=ud.adminGetUser(username);
+		AppState.state.setCurrentUser(u);
 		if(u!=null) {
 			
-			return new AdminHomepage(u);
+			return AdminHomepage.ah;
 			
 		}
 		

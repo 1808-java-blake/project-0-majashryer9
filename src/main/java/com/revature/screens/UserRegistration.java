@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.revature.beans.User;
 import com.revature.daos.UserDao;
+import com.revature.util.AppState;
 
 public class UserRegistration implements Screen {
 	
@@ -33,8 +34,9 @@ public class UserRegistration implements Screen {
 		u.setPassword(password);
 		
 		if(ud.createUser(u)) {
+			AppState.state.setCurrentUser(u);
 			System.out.println("Excellent!");
-			return new Registration(username, password);
+			return Registration.r;
 		}
 		else {
 			return UserRegistration.urs;

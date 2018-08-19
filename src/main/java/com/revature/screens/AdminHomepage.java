@@ -3,28 +3,23 @@ package com.revature.screens;
 import java.util.Scanner;
 
 import com.revature.beans.User;
+import com.revature.util.AppState;
 
 public class AdminHomepage implements Screen {
 	
-	private User u;
+	public static final AdminHomepage ah=new AdminHomepage();
+	private User u=new User();
 	private Scanner scan=new Scanner(System.in);
 
-	public AdminHomepage() {
+	private AdminHomepage() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-
-	public AdminHomepage(User u) {
-		super();
-		this.u = u;
-	}
-
-
 
 	@Override
 	public Screen start() {
 		// TODO Auto-generated method stub
+		u=AppState.state.getCurrentUser();
 		System.out.println("Select an option: ");
 		System.out.println("(1) View user account(s) and balance(s)");
 		System.out.println("(2) View user transaction history");
@@ -51,6 +46,8 @@ public class AdminHomepage implements Screen {
 			}
 			else {
 				System.out.println("Logging out.");
+				AppState.state.setCurrentUser(null);
+				u=null;
 				return Homepage.hp;
 			}
 			
@@ -60,7 +57,7 @@ public class AdminHomepage implements Screen {
 		}
 		
 		
-		return new AdminHomepage(u);
+		return AdminHomepage.ah;
 	}
 
 }

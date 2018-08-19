@@ -1,5 +1,6 @@
 package com.revature.beans;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,11 +12,12 @@ public class SavingsAccount extends Account {
 	
 	private User u;
 	private long accountNumber;
-	private double interestPercentage;
+	private double interestRate;
 	private double accountBalance;
-	private Instant instantNow; // set equal to Instant.now() when account created
+	private Instant lastLogin; // set equal to Instant.now() when last logged in
 	// getEpochSecond() to get long
 	private List<Transaction> savingsHistory=new ArrayList<Transaction>();
+	private double totalInterestAccrued=0;
 	
 	@Override
 	public void deposit(double toAdd) {
@@ -65,7 +67,23 @@ public class SavingsAccount extends Account {
 		
 	}
 	
-	public void accruedInterest() {
+	private double millisecondsToYears(long ms) {
+		return ms/(1000*60*60*24*365);
+	}
+	
+	//compounded continuously, credited every time you login
+	public void accrueInterest() {
+		
+		if(Instant.now().toEpochMilli()-lastLogin.toEpochMilli() > 86400000) {
+			long changeInTime=Instant.now().getEpochSecond()-this.lastLogin.getEpochSecond();
+			System.out.println(changeInTime);
+			double principalInterest=this.accountBalance;
+			double time=millisecondsToYears(changeInTime);
+			double amountToAdd=principalInterest*Math.exp(interestRate*time);
+			System.out.println("Added from interest " + amountToAdd);
+			totalInterestAccrued+=amountToAdd-principalInterest;
+			this.accountBalance=amountToAdd;
+		}
 		
 	}
 	public long getAccountNumber() {
@@ -74,15 +92,19 @@ public class SavingsAccount extends Account {
 	public void setAccountNumber(long accountNumber) {
 		this.accountNumber = accountNumber;
 	}
-	public double getInterestPercentage() {
-		return interestPercentage;
+	
+	public double getInterestRate() {
+		return interestRate;
 	}
-	public void setInterestPercentage(double interestPercentage) {
-		this.interestPercentage = interestPercentage;
+	
+	public void setInterestRate(double interestRate) {
+		this.interestRate = interestRate;
 	}
+	
 	public double getAccountBalance() {
 		return accountBalance;
 	}
+	
 	public void setAccountBalance(double accountBalance) {
 		this.accountBalance = accountBalance;
 		Transaction t= new Transaction(accountBalance, accountBalance + " added to savings on " + ZonedDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL)), u.getUsername(), Instant.now());
@@ -90,11 +112,12 @@ public class SavingsAccount extends Account {
 		this.savingsHistory.add(t);
 		
 	}
-	public Instant getInstantNow() {
-		return instantNow;
+	
+	public Instant getLastLogin() {
+		return lastLogin;
 	}
-	public void setInstantNow(Instant instantNow) {
-		this.instantNow = instantNow;
+	public void setLastLogin(Instant lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 	public User getUser() {
 		return u;
