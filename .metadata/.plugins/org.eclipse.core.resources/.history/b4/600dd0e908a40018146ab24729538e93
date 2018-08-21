@@ -1,0 +1,12 @@
+package com.sleepbank.beans;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class SleepAccount {
+	
+	private int accountid;
+	private double totalSleepPower;
+	private List<Transaction> transactionHistory=new ArrayList<Transaction>();
+
+}

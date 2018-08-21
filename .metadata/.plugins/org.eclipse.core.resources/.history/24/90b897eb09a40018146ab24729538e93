@@ -1,0 +1,17 @@
+package com.sleepbank.screens;
+
+public class Login {
+	
+	public static final Login l=new Login();
+
+	private Login() {
+		
+	}
+	
+	
+	
+	
+	
+	
+
+}

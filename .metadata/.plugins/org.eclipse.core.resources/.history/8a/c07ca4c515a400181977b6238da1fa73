@@ -1,0 +1,5 @@
+package com.sleepbank.daos;
+
+public class UserDaoJdbc {
+
+}

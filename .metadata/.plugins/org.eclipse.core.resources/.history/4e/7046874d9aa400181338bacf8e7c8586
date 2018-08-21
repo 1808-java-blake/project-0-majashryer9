@@ -1,0 +1,68 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.SleepAccount;
+import com.sleepbank.beans.User;
+import com.sleepbank.daos.AccountDao;
+import com.sleepbank.util.AppState;
+
+public class AccountRegistration implements Screen {
+	
+	public static final AccountRegistration ar=new AccountRegistration();
+	private Scanner scan=new Scanner(System.in);
+	private User u=new User();
+	
+	private AccountRegistration() {
+		
+	}
+
+	public Screen start() {
+		
+		u=AppState.state.getCurrentUser();
+		System.out.println("Welcome to ___ SLEEP BANK!");
+		System.out.println("Do you want to open a");
+		System.out.println("(1) No dream cleaner account");
+		System.out.println("(2) A dream cleaner account");
+		System.out.println("(3) Both (Open both now to get a free hour of 'sleep like a baby' quality, bad dream cleaned sleep in each account!");
+		String input=scan.nextLine();
+		if(input.equals("1") || input.equals("2") || input.equals("3"))
+		{	int key=Integer.parseInt(input);
+			switch (key) {
+			case 1:
+				SleepAccount newAccountND=new SleepAccount();
+				newAccountND.setTotalSleepPower(0);
+				newAccountND.setType("Non-dream cleaner");
+				u.getMyAccounts().add(newAccountND);
+				AccountDao.currentAccountDao.createAccount(u.getUsername(), newAccountND);
+		
+			case 2:
+				SleepAccount newAccountD=new SleepAccount();
+				newAccountD.setTotalSleepPower(0);
+				newAccountD.setType("Dream cleaner");
+				u.getMyAccounts().add(newAccountD);
+				AccountDao.currentAccountDao.createAccount(u.getUsername(), newAccountD);
+				
+			case 3:
+				SleepAccount newAccount1=new SleepAccount();
+				SleepAccount newAccount2=new SleepAccount();
+				newAccount1.setTotalSleepPower(5*60);
+				newAccount2.setTotalSleepPower(5*60);
+				newAccount1.setType("Non-dream cleaner");
+				newAccount2.setType("Dream cleaner");
+				AccountDao.currentAccountDao.createAccount(u.getUsername(), newAccount1);
+				AccountDao.currentAccountDao.createAccount(u.getUsername(), newAccount2);
+			
+			return UserHomepage.uh;
+			
+			}	
+		}
+		else {
+			System.out.println("Invalid input.");
+		}
+		
+		return ar;
+	}
+	
+
+}

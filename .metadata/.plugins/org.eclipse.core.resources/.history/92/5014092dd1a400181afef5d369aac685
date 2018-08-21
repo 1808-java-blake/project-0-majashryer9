@@ -1,0 +1,116 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.SleepAccount;
+import com.sleepbank.beans.User;
+import com.sleepbank.daos.UserDao;
+import com.sleepbank.util.AppState;
+
+public class TransferMoneyFromEitherScreen implements Screen {
+	
+	public static final TransferMoneyFromEitherScreen tmfe=new TransferMoneyFromEitherScreen();
+	private Scanner scan=new Scanner(System.in);
+	private User u=new User();
+	
+	private TransferMoneyFromEitherScreen() {
+	}
+
+
+
+	@Override
+	public Screen start() {
+		
+		u=AppState.state.getCurrentUser();
+		System.out.println("Enter the username of the person you want to transfer sleep power to: Press 'e' to exit.");
+		String username=scan.nextLine().trim();
+		if(!username.equals("e")) {
+			System.out.println("Do you want to transfer sleep power from your (1) Standard Account or (2) Quality Booster Account?");
+			String withdrawalAccount=scan.nextLine();
+			SleepAccount toTakeMoneyFrom=new SleepAccount();
+			if(withdrawalAccount.equals("1")) {
+				for(SleepAccount sa : u.getMyAccounts()) {
+					if(sa.getType().equals("standard")) {
+						toTakeMoneyFrom=sa;
+						break;
+					}
+				}
+			}
+			else if(withdrawalAccount.equals("2")) {
+				for(SleepAccount sa : u.getMyAccounts()) {
+					if(sa.getType().equals("quality booster")) {
+						toTakeMoneyFrom=sa;
+						break;
+					}
+				}
+				
+			}
+			else {
+				System.out.println("Invalid input.");
+				return tmfe;
+			}
+			User to=new User();
+			to=UserDao.currentUserDao.adminGetUser(username);
+			if(to==null) {
+				System.out.println("Cannot find user with that username.");
+				return tmfe;
+			}
+			if(to.getMyAccounts().size()==1) {
+				// only has one account to deposit money into
+				System.out.println("How much sleep power do you wish to deposit in " + to.getFirstname() + "'s account? ");
+				String amount=scan.nextLine().trim();
+				try {
+					double withdrawn=toTakeMoneyFrom.withdraw(Double.parseDouble(amount));
+					if(withdrawn==0) {
+						return tmfe;
+					}
+					to.getMyAccounts().get(0).deposit(withdrawn);
+					
+				} catch (Exception e) {
+					
+					System.out.println("Invalid input.");
+					
+				}
+				
+			}
+			else {
+				// has both
+				System.out.println("Do you want to deposit sleep power in their (1) Standard Account or (2) Quality Booster Account?");
+				String accountChoice=scan.nextLine();
+				System.out.println("How much sleep power do you want to deposit? ");
+				double withdrawn=0;
+				try {
+					withdrawn=toTakeMoneyFrom.withdraw(Double.parseDouble(scan.nextLine().trim()));
+					if(withdrawn==0) {
+						return tmfe;
+					}
+				} catch (Exception e) {
+					System.out.println("Invalid input.");
+				}
+				if(accountChoice.equals("1")) {
+					for(SleepAccount sa : to.getMyAccounts()) {
+						if(sa.getType().equals("standard")) {
+							sa.deposit(withdrawn);
+							break;
+						}
+					}
+					
+				}
+				else if(accountChoice.equals("2")) {
+					for(SleepAccount sa : to.getMyAccounts()) {
+						if(sa.getType().equals("quality booster")) {
+							sa.deposit(withdrawn);
+							break;
+						}
+					}
+					
+				}
+				else {
+					System.out.println("Invalid input");
+				}	
+			}
+		}
+		return StandardAndQualityHomepage.saqh;
+	}
+
+}

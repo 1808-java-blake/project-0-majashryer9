@@ -1,0 +1,12 @@
+package com.sleepbank.screens;
+
+public class UserHomepage {
+
+	public static final UserHomepage uh=new UserHomepage();
+	
+	private UserHomepage() {
+	}
+	
+	
+
+}

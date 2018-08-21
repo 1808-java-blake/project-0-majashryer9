@@ -1,0 +1,15 @@
+package com.sleepbank.screens;
+
+public class AdminLogin implements Screen{
+	
+	public static final AdminLogin al=new AdminLogin();
+
+	private AdminLogin() {
+	}
+
+	public Screen start() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,5 @@
+package com.sleepbank.beans;
+
+public class Transaction {
+
+}

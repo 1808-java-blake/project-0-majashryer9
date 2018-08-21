@@ -1,0 +1,8 @@
+package com.sleepbank.beans;
+
+public class Transaction {
+	
+	double amountSleepPowerInvolvedInTransaction;
+	String transactionDescription;
+
+}

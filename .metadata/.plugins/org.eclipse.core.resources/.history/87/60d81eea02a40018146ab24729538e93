@@ -1,0 +1,8 @@
+package com.sleepbank.beans;
+
+public class SleepAccount {
+	
+	private int accountid;
+	private double totalSleepPower;
+
+}

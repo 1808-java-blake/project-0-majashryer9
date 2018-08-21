@@ -1,0 +1,10 @@
+package com.sleepbank.screens;
+
+public class AdminLogin implements Screen{
+
+	public Screen start() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

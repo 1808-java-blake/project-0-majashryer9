@@ -1,0 +1,57 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.User;
+import com.sleepbank.util.AppState;
+
+public class UserHomepage implements Screen {
+
+	public static final UserHomepage uh=new UserHomepage();
+	private User u=new User();
+	private Scanner scan=new Scanner(System.in);
+	
+	private UserHomepage() {
+	}
+
+	public Screen start() {
+		
+		System.out.println("Select an option: ");
+		System.out.println("(1) Make a deposit");
+		System.out.println("(2) Make a withdrawal");
+		System.out.println("(3) View account balance");
+		System.out.println("(4) View Transaction History");
+		System.out.println("(5) Transfer sleep power");
+		scan.nextLine();
+		u=AppState.state.getCurrentUser();
+		if(u.getMyAccounts().size()==1 && u.getMyAccounts().get(0).getType().equals("standard")) {
+			// only has standard account, give option to open quality boosting account
+			System.out.println("(6) Open a Quality Boosting Account");
+			System.out.println("(7) Logout");
+			
+			
+		}
+		else if(u.getMyAccounts().size()==1) {
+			// only has quality boosting account, give option to open standard account
+			System.out.println("(6) Open a Standard Account");
+			System.out.println("(7) Logout");
+		}
+		else {
+			// has both accounts
+			System.out.println("(6) Logout");
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return uh;
+	}
+	
+	
+
+}

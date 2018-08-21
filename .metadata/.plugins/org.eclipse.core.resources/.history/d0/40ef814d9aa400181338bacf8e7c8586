@@ -1,0 +1,24 @@
+package com.sleepbank.screens;
+
+public class UserHomepage implements Screen {
+
+	public static final UserHomepage uh=new UserHomepage();
+	
+	private UserHomepage() {
+	}
+
+	public Screen start() {
+		
+		
+		
+		
+		
+		
+		
+		
+		return uh;
+	}
+	
+	
+
+}

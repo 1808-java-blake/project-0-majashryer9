@@ -1,0 +1,78 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.SleepAccount;
+import com.sleepbank.beans.User;
+import com.sleepbank.daos.AccountDao;
+import com.sleepbank.util.AppState;
+
+public class DepositScreen implements Screen {
+	
+	public static final DepositScreen ds=new DepositScreen();
+	private Scanner scan=new Scanner(System.in);
+	private User u=new User();
+
+	@Override
+	public Screen start() {
+		
+		u=AppState.state.getCurrentUser();
+		SleepAccount toDepositIn=new SleepAccount();
+		System.out.println("Do you want to make a deposit in your (1) Standard Account or (2) Quality Boosting account? ");
+		if(scan.nextLine().equals("1")) {
+			for(SleepAccount sa : u.getMyAccounts()) {
+				if(sa.getType().equals("standard")) {
+					toDepositIn=sa;
+					break;
+				}
+			}
+		}
+		else if(scan.nextLine().equals("2")) {
+			System.out.println("Here");
+			for(SleepAccount sa : u.getMyAccounts()) {
+				if(sa.getType().equals("quality boosting")) {
+					System.out.println(sa.getType());
+					toDepositIn=sa;
+					break;
+				}
+			}
+		}
+		else {
+			System.out.println("Invalid input");
+			return ds;
+		}
+		
+		System.out.println("How many hours of sleep did you get last night? Friendly reminder to be truthful.");
+		System.out.println("If you attempt to deposit more sleep power than you have stored in your system, our sleep power");
+		System.out.println("extractors will put you to sleep until you have enough to make the full deposit. This can be quite");
+		System.out.println("inconvenient if you have to be somewhere later.");
+		String hours=scan.nextLine();
+		System.out.println("Rate the quality of your sleep: ");
+		System.out.println("(1) Tossed and turned more than towels in a dryer");
+		System.out.println("(2) Tossed and turned more than towels in a dryer");
+		System.out.println("(3) Average");
+		System.out.println("(4) Slept like a baby");
+		System.out.println("(5) ");
+		String quality=scan.nextLine();
+		try {
+			double sleepPower=Double.parseDouble(hours)*Integer.parseInt(quality);
+			System.out.println("The amount of sleep power you acquired last night: " + sleepPower);
+			System.out.println("How much do you want to deposit? ");
+			double toDeposit=Double.parseDouble(scan.nextLine());
+			toDepositIn.deposit(toDeposit);
+			// make transaction
+			// update account
+			AccountDao.currentAccountDao.updateAccount(toDepositIn);
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Invalid input.");
+			return ds;
+		}
+		
+		return ds;
+	}
+	
+
+}

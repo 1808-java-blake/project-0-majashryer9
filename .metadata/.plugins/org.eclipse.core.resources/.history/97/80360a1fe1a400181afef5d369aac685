@@ -1,0 +1,14 @@
+package com.sleepbank.screens;
+
+public class DepositScreen implements Screen {
+	
+	public static final DepositScreen ds=new DepositScreen();
+
+	@Override
+	public Screen start() {
+		// TODO Auto-generated method stub
+		return ds;
+	}
+	
+
+}

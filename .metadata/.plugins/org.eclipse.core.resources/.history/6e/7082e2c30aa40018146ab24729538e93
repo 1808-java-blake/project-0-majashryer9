@@ -1,0 +1,69 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.SleepAccount;
+import com.sleepbank.beans.User;
+import com.sleepbank.util.AppState;
+
+public class AccountRegistration implements Screen {
+	
+	public static final AccountRegistration ar=new AccountRegistration();
+	private Scanner scan=new Scanner(System.in);
+	private User u=new User();
+	
+	private AccountRegistration() {
+		
+	}
+
+	public Screen start() {
+		
+		u=AppState.state.getCurrentUser();
+		System.out.println("Welcome to ___ SLEEP BANK!");
+		System.out.println("Do you want to open a");
+		System.out.println("(1) No dream cleaner account");
+		System.out.println("(2) A dream cleaner account");
+		System.out.println("(3) Both (Open both now to get a free hour of 'sleep like a baby' quality, bad dream cleaned sleep in each account!");
+		String input=scan.nextLine();
+		if(input.equals("1") || input.equals("2") || input.equals("3"))
+		{	int key=Integer.parseInt(input);
+			switch (key) {
+			
+			SleepAccount newAccount1=new SleepAccount();
+			case 1:
+				newAccount1.setTotalSleepPower(0);
+				newAccount1.setType("Non-dream cleaner");
+				u.getMyAccounts().add(newAccount1);
+				
+				// create new account here
+				
+				return UserHomepage.uh;
+			case 2:
+				newAccount1.setTotalSleepPower(0);
+				newAccount1.setType("Dream cleaner");
+				u.getMyAccounts().add(newAccount1);
+				
+				// create new account here
+				
+				return UserHomepage.uh;
+			case 3:
+				SleepAccount newAccount2=new SleepAccount();
+				newAccount1.setTotalSleepPower(5*60);
+				newAccount2.setTotalSleepPower(5*60);
+				newAccount1.setType("Non-dream cleaner");
+				newAccount2.setType("Dream cleaner");
+				
+				// create new account here
+				
+				return UserHomepage.uh;
+			}	
+		}
+		else {
+			System.out.println("Invalid input.");
+		}
+		
+		return ar;
+	}
+	
+
+}

@@ -1,0 +1,11 @@
+package com.sleepbank.daos;
+
+import com.sleepbank.beans.SleepAccount;
+
+public interface AccountDao {
+	
+	void createAccount(SleepAccount sa);
+	SleepAccount getAccountsByUsername(String username);
+	void updateAccount(SleepAccount sa);
+
+}

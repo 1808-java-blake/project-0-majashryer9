@@ -1,0 +1,19 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+public class AdminHomepage implements Screen {
+	
+	public static final AdminHomepage ah=new AdminHomepage();
+	private Scanner scan=new Scanner(System.in);
+	
+	@Override
+	public Screen start() {
+		// TODO Auto-generated method stub
+		
+		
+		return ah;
+	}
+	
+
+}

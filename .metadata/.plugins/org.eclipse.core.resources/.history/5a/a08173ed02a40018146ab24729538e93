@@ -1,0 +1,18 @@
+package com.sleepbank.screens;
+
+public class AccountRegistration implements Screen {
+	
+	public static final AccountRegistration ar=new AccountRegistration();
+
+	
+	
+	private AccountRegistration() {
+		
+	}
+
+	public Screen Start() {
+		
+	}
+	
+
+}

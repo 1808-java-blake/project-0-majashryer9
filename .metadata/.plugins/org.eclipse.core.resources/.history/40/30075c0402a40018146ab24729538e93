@@ -1,0 +1,31 @@
+package com.sleepbank.screens;
+
+import java.util.Scanner;
+
+import com.sleepbank.beans.User;
+
+public class UserRegistration implements Screen {
+	
+	public static final UserRegistration ur=new UserRegistration();
+	private Scanner scan=new Scanner();
+
+	public Screen start() {
+		
+		User u=new User();
+		System.out.println("Enter your first name: ");
+		u.setFirstName(scan.nextLine().trim());
+		System.out.println("Enter your last name: ");
+		u.setLastName(scan.nextLine().trim());
+		System.out.println("Enter your username: ");
+		String username=scan.nextLine().trim();
+		u.setUsername(username);
+		System.out.println("Enter your password: ");
+		String password=scan.nextLine().trim();
+		u.setPassword(password);
+		
+		return null;
+	}
+	
+	
+
+}

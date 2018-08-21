@@ -1,0 +1,5 @@
+package com.sleepbank.util;
+
+public class AppState {
+
+}

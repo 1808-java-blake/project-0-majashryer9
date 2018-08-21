@@ -1,0 +1,20 @@
+package com.sleepbank.util;
+
+import java.util.Properties;
+
+public class ConnectionUtil {
+	
+	public static final ConnectionUtil cu=new ConnectionUtil();
+	private Properties dbProps=new Properties();
+
+	private ConnectionUtil() {
+		
+		dbProps.load(arg0);
+		
+		
+	}
+	
+	
+	
+
+}

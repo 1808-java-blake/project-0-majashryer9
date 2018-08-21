@@ -1,0 +1,39 @@
+package com.sleepbank.screens;
+
+import com.sleepbank.beans.User;
+import com.sleepbank.util.AppState;
+
+public class UserHomepage implements Screen {
+
+	public static final UserHomepage uh=new UserHomepage();
+	private User u=new User();
+	
+	private UserHomepage() {
+	}
+
+	public Screen start() {
+		
+		u=AppState.state.getCurrentUser();
+		if(u.getMyAccounts().size()==1 && u.getMyAccounts().get(0).getType().equals("standard")) {
+			// only has standard account, give option to open quality boosting account
+			
+			
+		}
+		else if(u.getMyAccounts().size()==1) {
+			// only 
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		return uh;
+	}
+	
+	
+
+}

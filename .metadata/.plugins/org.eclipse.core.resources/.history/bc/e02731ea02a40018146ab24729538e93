@@ -1,0 +1,8 @@
+package com.sleepbank.daos;
+
+public interface AccountDao {
+	
+	void createAccount(SleepAccount sa);
+	List<SleepAccount> getAccountsByUsername(String username);
+
+}
