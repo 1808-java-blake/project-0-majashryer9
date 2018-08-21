@@ -1,0 +1,19 @@
+CREATE TABLE users(
+	firstname VARCHAR(20),
+	lastname VARCHAR(20),
+	username VARCHAR(20) PRIMARY KEY,
+	password VARCHAR(20)
+);
+
+CREATE TABLE sleep_accounts(
+	username VARCHAR(20) REFERENCES users(username),
+	accountid SERIAL PRIMARY KEY,
+	total_sleep_power NUMERIC,
+	account_type VARCHAR(20)
+);
+
+CREATE TABLE transactions(
+	accountid INTEGER REFERENCES sleep_accounts(accountid),
+	amount_sleep_power_involved_in_transaction NUMERIC,
+	transaction_description VARCHAR(250)
+);
